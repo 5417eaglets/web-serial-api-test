@@ -145,7 +145,7 @@ while (true) {
 
 //this is how you can use the writeToStream function to actually write a value to the arduino by communicating through the console
 function writeMsg() {
-  console.log(writeToStream("yes"));
+  console.log(writeToStream(0x0C));
 }
 
 /**
