@@ -64,7 +64,7 @@ const encoder = new TextEncoderStream();
 outputDone = encoder.readable.pipeTo(port.writable);
 outputStream = encoder.writable;
   // CODELAB: Send CTRL-C and turn off echo on REPL
-writeToStream('\x03', 'echo(false);');
+//writeToStream('\x03', 'echo(false);');
   // CODELAB: Add code to read the stream here.
 let decoder = new TextDecoderStream();
 inputDone = port.readable.pipeTo(decoder.writable);
