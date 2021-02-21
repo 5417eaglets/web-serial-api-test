@@ -168,7 +168,8 @@ function writeToStream(...lines) {
 const writer = outputStream.getWriter();
 lines.forEach((line) => {
   console.log('[SEND]', line);
-  writer.write(line + '\n');
+  //writer.write(line + '\n');
+  writer.write(line);
 });
 writer.releaseLock();
 }
