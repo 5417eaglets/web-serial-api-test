@@ -213,6 +213,13 @@ function decodeHex (hexChar) {
   }
   return num1;
 }
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
 function doubleHex (index2) {
 	//this is receiving a hexadecimal character, so needs to be decoded
 	var first = hexCode[index2];
@@ -243,7 +250,8 @@ for (var i4 = 0; i4<hexLength-1;) {
       //this then writes the decoded hex number (as type int) to the Arduino
       // and also converts it into the corresponding ASCII char before doing so
       //also, need to slow down the transmission since Arduino can't handle it going this fast
-      setTimeout(() => { console.log(writeToStream(String.fromCharCode(val))); }, 10);
+      console.log(writeToStream(String.fromCharCode(val)));
+      sleep(20);
       index+=2;
     }
     for (var i = 0; i < 2; i++) {
