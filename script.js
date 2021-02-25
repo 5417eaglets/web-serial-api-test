@@ -242,7 +242,8 @@ for (var i4 = 0; i4<hexLength-1;) {
       //console.log(val);
       //this then writes the decoded hex number (as type int) to the Arduino
       // and also converts it into the corresponding ASCII char before doing so
-      console.log(writeToStream(String.fromCharCode(val)));
+      //also, need to slow down the transmission since Arduino can't handle it going this fast
+      setTimeout(() => { console.log(writeToStream(String.fromCharCode(val))); }, 10);
       index+=2;
     }
     for (var i = 0; i < 2; i++) {
