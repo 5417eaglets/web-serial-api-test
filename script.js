@@ -254,6 +254,8 @@ for (var i4 = 0; i4<hexLength-1;) {
   	index++;
   }
 } //end of for loop
+//this sends the termination character to end the whole transmission
+console.log(writeToStream(String.fromCharCode(256)));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
