@@ -213,12 +213,8 @@ function decodeHex (hexChar) {
   }
   return num1;
 }
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 function doubleHex (index2) {
 	//this is receiving a hexadecimal character, so needs to be decoded
@@ -230,8 +226,16 @@ function doubleHex (index2) {
   secondInt += firstInt;
   return secondInt;
 }
-function writeFromHexData() {
+/*
+*Really weird- can transmit data fine, but Arduino is not accepting it for 
+some strange reason, maybe it has to do with the data being sent to fast 
+since Arduino can handle it fine when sent through the inspector window Ctrl+i
+*/
+
+async function writeFromHexData() {
 console.log("hexLength: " + hexLength);
+var sendString = "";
+var counter = 0;
 //repeat while it has not reached the end of the hex file
 for (var i4 = 0; i4<hexLength-1;) {
   var temp = hexCode[index];
@@ -249,19 +253,34 @@ for (var i4 = 0; i4<hexLength-1;) {
       //console.log(val);
       //this then writes the decoded hex number (as type int) to the Arduino
       // and also converts it into the corresponding ASCII char before doing so
-      //also, need to slow down the transmission since Arduino can't handle it going this fast
       console.log(writeToStream(String.fromCharCode(val)));
-      sleep(20);
+      //cannot go beyond this sleep of 20 or the Arduino won't be able to receive the data fast enough
+      await sleep(20); 
+      /*sendString += String.fromCharCode(val);
+      if (counter < 64) { //makes sure that it executes in 64 char buffers
+        counter++;
+      }
+      else {
+        counter = 0;
+        console.log(writeToStream(sendString));
+        //need to slow down the transmission since Arduino can't handle it going this fast
+        await sleep(20);
+        sendString = "";
+      }*/
       index+=2;
     }
     for (var i = 0; i < 2; i++) {
     	index++;
     }
+    
+
     i4++; //executes the appropriate number of lines
   }
   else {
   	index++;
   }
+  /*console.log(writeToStream(sendString));
+  await sleep(20);*/
 } //end of for loop
 //this sends the termination character to end the whole transmission
 console.log(writeToStream(String.fromCharCode(256)));
